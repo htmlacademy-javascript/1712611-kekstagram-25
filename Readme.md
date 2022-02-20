@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Ирина Мельник](https://up.htmlacademy.ru/javascript/25/user/1712611).
-* Наставник: `Неизвестно`.
+* Наставник: [Николай Котиков](https://htmlacademy.ru/profile/niklcat).
 
 ---
 
