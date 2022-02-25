@@ -1,19 +1,15 @@
-function getRandNumFromRange(from, to) {
-  if (to < from) {
-    throw new Error('Second argument should be bigger then first');
+function getRandomNumberFromRange(from, to) {
+  if (to <= from || from < 0) {
+    throw new Error('Wrong arguments');
   } else {
     return Math.floor(from + Math.random() * (to - from + 1));
   }
 }
 
-getRandNumFromRange(10, 100);
+getRandomNumberFromRange(10, 100);
 
 function isStringInLimit(string, limit) {
-  if (string.length < limit) {
-    return true;
-  } else {
-    return false;
-  }
+  return string.length <= limit;
 }
 
 isStringInLimit('Я учу js', 10);
