@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable prefer-template */
 function getRandomNumberFromRange(from, to) {
   if (to <= from || from < 0) {
     throw new Error('Wrong arguments');
@@ -6,13 +8,20 @@ function getRandomNumberFromRange(from, to) {
   }
 }
 
-getRandomNumberFromRange(10, 100);
-
 function isStringInLimit(string, limit) {
   return string.length <= limit;
 }
 
 isStringInLimit('Я учу js', 10);
+
+function buildPath(path1, path2, path3) {
+  const path = path1 + path2 + path3;
+  return path;
+}
+
+function getRandomArrayElement(elements) {
+  return elements[getRandomNumberFromRange(0, elements.length - 1)];
+}
 
 const DESCRIPTIONS = [
   'Следуй за своим сердцем, но не забывай брать с собой мозг.',
@@ -46,38 +55,40 @@ const NAMES = [
   'Джао',
 ];
 
-const IMAGE_COUNT = 25;
+const IMAGES_COUNT = 25;
 
-const createComments = () => {
+const createComments = (index) => {
 
   const comments = [];
   const commentsAmount = getRandomNumberFromRange(2, 4);
   for (let i = 1; i <= commentsAmount; i++) {
-    const randomNameIndex = getRandomNumberFromRange(0, NAMES.length - 1);
-    const randomMessagesIndex = getRandomNumberFromRange(0, MESSAGES.length - 1);
     comments.push({
-      id: getRandomNumberFromRange(10, 100),
-      avatar: 'img/avatar-' + getRandomNumberFromRange(1, 6) + '.svg',
-      //avatar - это строка, значение которой формируется по правилу img/avatar-{{случайное число от 1 до 6}}.svg
-      message: MESSAGES[randomMessagesIndex],
-      name: NAMES[randomNameIndex],
+      id: index * 100 + i,
+      avatar: buildPath('img/avatar-', getRandomNumberFromRange(1, 6), '.svg'),
+      message: getRandomArrayElement(MESSAGES),
+      name: getRandomArrayElement(NAMES),
     });
   }
   return comments;
 };
 
-const createImage = (e, index) => {
-  const randomDescriptionIndex = getRandomNumberFromRange(0, DESCRIPTIONS.length - 1);
+const createImage = (index) => ({
+  id: index,
+  url: buildPath('photos/', index, '.jpg'), //строка — адрес картинки вида photos/{{i}}.jpg, где {{i}} — это число от 1 до 25. Адреса картинок не должны повторяться.
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandomNumberFromRange(15, 200), //число — количество лайков, поставленных фотографии. Случайное число от 15 до 200.
+  comments: createComments(index),
+});
 
-  return {
-    id: index + 1, //id, число — идентификатор описания. Это число от 1 до 25. Идентификаторы не должны повторяться.
-    url: 'photos/' + (index + 1), //строка — адрес картинки вида photos/{{i}}.jpg, где {{i}} — это число от 1 до 25. Адреса картинок не должны повторяться.
-    description: DESCRIPTIONS[randomDescriptionIndex], //строка — описание фотографии. Описание придумайте самостоятельно.
-    likes: getRandomNumberFromRange(15, 200), //число — количество лайков, поставленных фотографии. Случайное число от 15 до 200.
-    comments: createComments(),
-  };
+const createImages = () => {
+
+  const images = [];
+  for (let i = 1; i <= IMAGES_COUNT; i++) {
+    images.push(
+      createImage(i)
+    );
+  }
+  return images;
 };
 
-const Images = Array.from({length: IMAGE_COUNT}, createImage);
-
-console.log(Images);
+createImages();
