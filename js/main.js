@@ -1,28 +1,3 @@
-/* eslint-disable no-shadow */
-/* eslint-disable prefer-template */
-function getRandomNumberFromRange(from, to) {
-  if (to <= from || from < 0) {
-    throw new Error('Wrong arguments');
-  } else {
-    return Math.floor(from + Math.random() * (to - from + 1));
-  }
-}
-
-function isStringInLimit(string, limit) {
-  return string.length <= limit;
-}
-
-isStringInLimit('Я учу js', 10);
-
-function buildPath(path1, path2, path3) {
-  const path = path1 + path2 + path3;
-  return path;
-}
-
-function getRandomArrayElement(elements) {
-  return elements[getRandomNumberFromRange(0, elements.length - 1)];
-}
-
 const DESCRIPTIONS = [
   'Следуй за своим сердцем, но не забывай брать с собой мозг.',
   'Успех следует за упорным трудом.',
@@ -56,6 +31,28 @@ const NAMES = [
 ];
 
 const IMAGES_COUNT = 25;
+
+function getRandomNumberFromRange(from, to) {
+  if (to <= from || from < 0) {
+    throw new Error('Wrong arguments');
+  } else {
+    return Math.floor(from + Math.random() * (to - from + 1));
+  }
+}
+
+function isStringInLimit(string, limit) {
+  return string.length <= limit;
+}
+
+isStringInLimit('Я учу js', 10);
+
+function buildPath(path, id, extension) {
+  return path + id + extension;
+}
+
+function getRandomArrayElement(elements) {
+  return elements[getRandomNumberFromRange(0, elements.length - 1)];
+}
 
 const createComments = (index) => {
 
