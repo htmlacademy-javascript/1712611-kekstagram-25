@@ -20,7 +20,4 @@ function buildPath(path, id, extension) {
   return path + id + extension;
 }
 
-export {getRandomNumberFromRange};
-export {getRandomArrayElement};
-export {isStringInLimit};
-export {buildPath};
+export {getRandomNumberFromRange, getRandomArrayElement, isStringInLimit, buildPath};

@@ -1,6 +1,4 @@
-import {getRandomNumberFromRange} from './util.js';
-import {getRandomArrayElement} from './util.js';
-import {buildPath} from './util.js';
+import {getRandomNumberFromRange, getRandomArrayElement, buildPath} from './util.js';
 
 const DESCRIPTIONS = [
   'Следуй за своим сердцем, но не забывай брать с собой мозг.',
