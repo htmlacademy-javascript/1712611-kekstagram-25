@@ -32,7 +32,7 @@ const NAMES = [
   'Джао',
 ];
 
-const IMAGES_COUNT = 25;
+// const IMAGES_COUNT = 25;
 
 const createComments = (index) => {
 
@@ -51,16 +51,16 @@ const createComments = (index) => {
 
 const createImage = (index) => ({
   id: index,
-  url: buildPath('photos/', index, '.jpg'), //строка — адрес картинки вида photos/{{i}}.jpg, где {{i}} — это число от 1 до 25. Адреса картинок не должны повторяться.
+  url: buildPath('photos/', index, '.jpg'),
   description: getRandomArrayElement(DESCRIPTIONS),
-  likes: getRandomNumberFromRange(15, 200), //число — количество лайков, поставленных фотографии. Случайное число от 15 до 200.
+  likes: getRandomNumberFromRange(15, 200),
   comments: createComments(index),
 });
 
-const createImages = () => {
+const createImages = (imagesCount) => {
 
   const images = [];
-  for (let i = 1; i <= IMAGES_COUNT; i++) {
+  for (let i = 1; i <= imagesCount; i++) {
     images.push(
       createImage(i)
     );
