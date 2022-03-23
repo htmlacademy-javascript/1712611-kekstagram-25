@@ -1,2 +1,1 @@
-import './paint.js';
-import './popup.js';
+import './gallery.js';
