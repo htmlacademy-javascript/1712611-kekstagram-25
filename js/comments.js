@@ -6,34 +6,34 @@
 // },
 
 function buildComment(comment) {
-  const li = document.createElement('li');
-  li.classList.add('social__comment');
+  const listElement = document.createElement('li');
+  listElement.classList.add('social__comment');
 
-  const img = document.createElement('img');
-  img.classList.add('social__picture');
-  img.setAttribute('width', 35);
-  img.setAttribute('height', 35);
-  img.setAttribute('src', comment.avatar);
-  img.setAttribute('alt', comment.name);
+  const imgElement = document.createElement('img');
+  imgElement.classList.add('social__picture');
+  imgElement.setAttribute('width', 35);
+  imgElement.setAttribute('height', 35);
+  imgElement.setAttribute('src', comment.avatar);
+  imgElement.setAttribute('alt', comment.name);
 
   const p = document.createElement('p');
   p.classList.add('social__text');
   p.textContent = comment.message;
-  li.insertAdjacentElement('beforeend', img);
-  li.insertAdjacentElement('beforeend', p);
+  listElement.insertAdjacentElement('beforeend', imgElement);
+  listElement.insertAdjacentElement('beforeend', p);
 
-  return li;
+  return listElement;
 }
 
 // params:
 //   comments = [{ comment1, comment2, ... }]
 function buildComments(comments) {
-  const commentsFragment = document.createDocumentFragment();
+  const commentsFragmentElement = document.createDocumentFragment();
   for (const comment of comments) {
     const commentElement = buildComment(comment);
-    commentsFragment.appendChild(commentElement);
+    commentsFragmentElement.appendChild(commentElement);
   }
-  return commentsFragment;
+  return commentsFragmentElement;
 }
 
 export {buildComments};

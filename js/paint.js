@@ -1,5 +1,5 @@
 function paintSmallImages(images) {
-  const picturesContainer = document.querySelector('.pictures');
+  const picturesContainerElement = document.querySelector('.pictures');
 
   const pictureTemplate = document.querySelector('#picture')
     .content
@@ -15,7 +15,7 @@ function paintSmallImages(images) {
     picturesFragment.appendChild(pictureElement);
   });
 
-  picturesContainer.appendChild(picturesFragment);
+  picturesContainerElement.appendChild(picturesFragment);
 }
 
 export {paintSmallImages};
