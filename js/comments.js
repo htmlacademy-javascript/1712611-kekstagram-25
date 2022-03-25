@@ -16,11 +16,11 @@ function buildComment(comment) {
   imgElement.setAttribute('src', comment.avatar);
   imgElement.setAttribute('alt', comment.name);
 
-  const p = document.createElement('p');
-  p.classList.add('social__text');
-  p.textContent = comment.message;
+  const pElement = document.createElement('p');
+  pElement.classList.add('social__text');
+  pElement.textContent = comment.message;
   listElement.insertAdjacentElement('beforeend', imgElement);
-  listElement.insertAdjacentElement('beforeend', p);
+  listElement.insertAdjacentElement('beforeend', pElement);
 
   return listElement;
 }
@@ -28,12 +28,12 @@ function buildComment(comment) {
 // params:
 //   comments = [{ comment1, comment2, ... }]
 function buildComments(comments) {
-  const commentsFragmentElement = document.createDocumentFragment();
+  const commentsFragment = document.createDocumentFragment();
   for (const comment of comments) {
     const commentElement = buildComment(comment);
-    commentsFragmentElement.appendChild(commentElement);
+    commentsFragment.appendChild(commentElement);
   }
-  return commentsFragmentElement;
+  return commentsFragment;
 }
 
 export {buildComments};
