@@ -22,35 +22,49 @@ function attachPopupEvent(images) {
   const popupCloseButtonElement = popupElement.querySelector('.big-picture__cancel');
 
   function documentKeydownHandler(evt) {
-    if (evt.key === 'Escape') {
-      popupElement.classList.add('hidden');
-      document.removeEventListener('keydown', documentKeydownHandler);
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      closeModal(evt);
     }
+  }
+
+  function setupModal(image) {
+    const commentsElement = buildComments(image.comments);
+    popupElement.querySelector('.social__comments').innerHTML = '';
+
+    popupElement.querySelector('.big-picture__img img').setAttribute('src', image.url);
+    popupElement.querySelector('.likes-count').textContent = image.likes;
+    popupElement.querySelector('.comments-count').textContent = image.comments.length;
+
+    popupElement.querySelector('.social__comments').appendChild(commentsElement);
+    popupElement.querySelector('.social__caption').textContent = image.description;
+    popupElement.querySelector('.social__comment-count').classList.add('hidden');
+    popupElement.querySelector('.comments-loader').classList.add('hidden');
+  }
+
+  function openModal() {
+    popupElement.classList.remove('hidden');
+    document.querySelector('body').classList.add('modal-open');
+    document.addEventListener('keydown', documentKeydownHandler);
+
+    popupCloseButtonElement.addEventListener('click', (evt) => {
+      closeModal(evt);
+    });
+  }
+
+  function closeModal(evt) {
+    evt.preventDefault();
+    popupElement.classList.add('hidden');
+    document.removeEventListener('keydown', documentKeydownHandler);
+    document.querySelector('body').classList.remove('modal-open');
   }
 
   for (let i = 0; i < pictureElements.length; i++) {
     pictureElements[i].addEventListener('click', (evt) => {
       evt.preventDefault();
-      popupElement.querySelector('.social__comments').innerHTML = '';
-      popupElement.classList.remove('hidden');
-      popupElement.querySelector('.big-picture__img img').setAttribute('src', images[i].url);
-      popupElement.querySelector('.likes-count').textContent = images[i].likes;
-      popupElement.querySelector('.comments-count').textContent = images[i].comments.length;
-      const commentsElement = buildComments(images[i].comments);
-      popupElement.querySelector('.social__comments').appendChild(commentsElement);
-      popupElement.querySelector('.social__caption').textContent = images[i].description;
-      document.addEventListener('keydown', documentKeydownHandler);
-      popupElement.querySelector('.social__comment-count').classList.add('hidden');
-      popupElement.querySelector('.comments-loader').classList.add('hidden');
-      document.querySelector('body').classList.add('modal-open');
+      setupModal(images[i]);
+      openModal();
     });
   }
-
-  popupCloseButtonElement.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    popupElement.classList.add('hidden');
-    document.removeEventListener('keydown', documentKeydownHandler);
-  });
 }
 
 export {attachPopupEvent};
