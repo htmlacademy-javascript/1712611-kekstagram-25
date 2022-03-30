@@ -4,6 +4,7 @@ import './upload-form.js';
 const imageUploadModalElement = document.querySelector('.img-upload__overlay');
 const imageUploadElement = document.querySelector('#upload-file');
 const imageUploadModalCloseElement = imageUploadModalElement.querySelector('.img-upload__cancel');
+const uploadForm = document.querySelector('.img-upload__form');
 
 function documentKeydownHandler(evt) {
   if (isEscapeKey(evt)) {
@@ -15,10 +16,6 @@ function openImageUploadModal () {
   imageUploadModalElement.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
   document.addEventListener('keydown', documentKeydownHandler);
-
-  imageUploadModalCloseElement.addEventListener('click', (evt) => {
-    closeImageUploadModal(evt);
-  });
 }
 
 function closeImageUploadModal(evt) {
@@ -26,9 +23,15 @@ function closeImageUploadModal(evt) {
   imageUploadModalElement.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
   document.removeEventListener('keydown', documentKeydownHandler);
-  imageUploadElement.value = '';
+  uploadForm.reset(); //обнуляет поля формы
 }
 
 imageUploadElement.addEventListener('change', () => {
   openImageUploadModal();
 });
+
+imageUploadModalCloseElement.addEventListener('click', (evt) => {
+  closeImageUploadModal(evt);
+});
+
+export {closeImageUploadModal};
