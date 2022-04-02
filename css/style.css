@@ -1403,3 +1403,7 @@ main {
 .hidden {
   display: none;
 }
+
+.text__hashtags-wrapper {
+  margin-bottom: 15px;
+}

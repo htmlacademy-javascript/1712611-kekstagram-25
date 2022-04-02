@@ -6,6 +6,7 @@ const imageUploadElement = document.querySelector('#upload-file');
 const imageUploadModalCloseElement = imageUploadModalElement.querySelector('.img-upload__cancel');
 const uploadForm = document.querySelector('.img-upload__form');
 
+
 function documentKeydownHandler(evt) {
   if (isEscapeKey(evt)) {
     closeImageUploadModal(evt);
