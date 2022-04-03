@@ -5,10 +5,11 @@ const uploadFormElement = document.querySelector('.img-upload__form');
 const hashtagsElement = uploadFormElement.querySelector('.text__hashtags');
 const commentElement = uploadFormElement.querySelector('.text__description');
 
-const hashtagsMaxAmount = 5;
-const commentMaxLength = 140;
+const HASHTAGS_MAX_AMOUNT = 5;
+const HASHTAG_MAX_LENGTH = 20;
+const COMMENT_MAX_LENGTH = 140;
 
-const re = /^#[A-Za-zА-Яа-яЁё0-9]/;
+const RE = /^#[A-Za-zА-Яа-яЁё0-9]/;
 
 const pristine = new Pristine(uploadFormElement, {
   classTo: 'text__wrapper',
@@ -31,7 +32,7 @@ function checkFirstSymbol (value) {
 }
 
 function validateHashtagsSymbols (value) {
-  return isEmptyString(value) || value.split(' ').every((hashtag) => re.test(hashtag));
+  return isEmptyString(value) || value.split(' ').every((hashtag) => RE.test(hashtag));
 }
 
 function checkSharp (value) {
@@ -44,8 +45,18 @@ function checkSharp (value) {
   });
 }
 
+function validatehashtagsLength (value) {
+  return value.split(' ').every((hashtag) => {
+    if (hashtag.lenght <= HASHTAG_MAX_LENGTH) {
+      return true;
+    }
+
+    return false;
+  });
+}
+
 function validateHashtagsAmount (value) {
-  return value.split(' ').length <= hashtagsMaxAmount;
+  return value.split(' ').length <= HASHTAGS_MAX_AMOUNT;
 }
 
 function validateHashtagsUniq (value) {
@@ -55,7 +66,7 @@ function validateHashtagsUniq (value) {
 }
 
 function validateCommentsLength (value) {
-  return value.length < commentMaxLength;
+  return value.length < COMMENT_MAX_LENGTH;
 }
 
 function inputKeydownHandler(evt) {
@@ -74,6 +85,8 @@ pristine.addValidator(hashtagsElement, checkSharp, 'Хеш-тег не може�
 
 pristine.addValidator(hashtagsElement, validateHashtagsUniq, 'Один и тот же хэш-тег не может быть использован дважды', 7);
 
+pristine.addValidator(hashtagsElement, validatehashtagsLength, 'Максимальная длина одного хэш-тега 20 символов, включая решётку', 6);
+
 pristine.addValidator(commentElement, validateCommentsLength, 'Длина комментария не может составлять больше 140 символов');
 
 hashtagsElement.addEventListener('keydown', inputKeydownHandler);
@@ -86,9 +99,7 @@ uploadFormElement.addEventListener('submit', (evt) => {
   // const successElement = document.querySelector('#success').content.querySelector('.success');
   // const errorElement = document.querySelector('#error').content.querySelector('.error');
 
-  const isHashtagValid = pristine.validate(hashtagsElement);
-  const isCommentValied = pristine.validate(commentElement);
-  const isValid = isHashtagValid && isCommentValied;
+  const isValid = pristine.validate();
   if (isValid) {
     // document.body.appendChild(successElement);
   } else {
