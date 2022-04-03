@@ -5,7 +5,7 @@ const HASHTAGS_MAX_AMOUNT = 5;
 const HASHTAG_MAX_LENGTH = 20;
 const COMMENT_MAX_LENGTH = 140;
 
-const HASHTAG_REGEX = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+const HASHTAG_REGEX = /^#[A-Za-zА-Яа-яЁё0-9]+$/;
 
 const uploadFormElement = document.querySelector('.img-upload__form');
 const hashtagsElement = uploadFormElement.querySelector('.text__hashtags');
