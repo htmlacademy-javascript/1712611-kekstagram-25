@@ -20,4 +20,8 @@ function buildPath(path, id, extension) {
   return path + id + extension;
 }
 
-export {getRandomNumberFromRange, getRandomArrayElement, isStringInLimit, buildPath};
+function isEscapeKey(evt) {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+}
+
+export {getRandomNumberFromRange, getRandomArrayElement, isStringInLimit, buildPath, isEscapeKey};
