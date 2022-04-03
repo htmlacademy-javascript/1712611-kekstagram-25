@@ -1,15 +1,15 @@
 // import {closeImageUploadModal} from './upload.js';
 import {isEscapeKey} from './util.js';
 
-const uploadFormElement = document.querySelector('.img-upload__form');
-const hashtagsElement = uploadFormElement.querySelector('.text__hashtags');
-const commentElement = uploadFormElement.querySelector('.text__description');
-
 const HASHTAGS_MAX_AMOUNT = 5;
 const HASHTAG_MAX_LENGTH = 20;
 const COMMENT_MAX_LENGTH = 140;
 
-const RE = /^#[A-Za-zА-Яа-яЁё0-9]/;
+const HASHTAG_REGEX = /^#[A-Za-zА-Яа-яЁё0-9]/;
+
+const uploadFormElement = document.querySelector('.img-upload__form');
+const hashtagsElement = uploadFormElement.querySelector('.text__hashtags');
+const commentElement = uploadFormElement.querySelector('.text__description');
 
 const pristine = new Pristine(uploadFormElement, {
   classTo: 'text__wrapper',
@@ -32,7 +32,7 @@ function checkFirstSymbol (value) {
 }
 
 function validateHashtagsSymbols (value) {
-  return isEmptyString(value) || value.split(' ').every((hashtag) => RE.test(hashtag));
+  return isEmptyString(value) || value.split(' ').every((hashtag) => HASHTAG_REGEX.test(hashtag));
 }
 
 function checkSharp (value) {
@@ -47,7 +47,7 @@ function checkSharp (value) {
 
 function validatehashtagsLength (value) {
   return value.split(' ').every((hashtag) => {
-    if (hashtag.lenght <= HASHTAG_MAX_LENGTH) {
+    if (hashtag.length <= HASHTAG_MAX_LENGTH) {
       return true;
     }
 
