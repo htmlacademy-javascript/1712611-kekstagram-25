@@ -5,20 +5,23 @@ const uploadFormElement = document.querySelector('.img-upload__form');
 const hashtagsElement = uploadFormElement.querySelector('.text__hashtags');
 const commentElement = uploadFormElement.querySelector('.text__description');
 
-const hashtagPristine = new Pristine(uploadFormElement, {
-  classTo: 'img-upload__text',
-  errorTextParent: 'text__hashtags-wrapper',
-  errorTextClass: 'img-upload__error-text'
+const hashtagsMaxAmount = 5;
+const commentMaxLength = 140;
+
+const re = /^#[A-Za-zА-Яа-яЁё0-9]/;
+
+const pristine = new Pristine(uploadFormElement, {
+  classTo: 'text__wrapper',
+  errorTextParent: 'text__wrapper',
+  errorTextClass: 'text__error-text'
 }, false);
 
-const commentPristine = new Pristine(uploadFormElement, {
-  classTo: 'img-upload__text',
-  errorTextParent: 'text__comment-wrapper',
-  errorTextClass: 'img-upload__error-text'
-}, false);
+function isEmptyString(value) {
+  return !value.length;
+}
 
 function checkFirstSymbol (value) {
-  return value.split(' ').every((hashtag) => {
+  return isEmptyString(value) || value.split(' ').every((hashtag) => {
     if (hashtag[0] === '#') {
       return true;
     }
@@ -28,10 +31,7 @@ function checkFirstSymbol (value) {
 }
 
 function validateHashtagsSymbols (value) {
-  return value.split(' ').every((hashtag) => {
-    const re = /^#[A-Za-zА-Яа-яЁё0-9]/;
-    return re.test(hashtag);
-  });
+  return isEmptyString(value) || value.split(' ').every((hashtag) => re.test(hashtag));
 }
 
 function checkSharp (value) {
@@ -45,7 +45,7 @@ function checkSharp (value) {
 }
 
 function validateHashtagsAmount (value) {
-  return value.split(' ').length <= 5;
+  return value.split(' ').length <= hashtagsMaxAmount;
 }
 
 function validateHashtagsUniq (value) {
@@ -55,7 +55,7 @@ function validateHashtagsUniq (value) {
 }
 
 function validateCommentsLength (value) {
-  return value.length < 140;
+  return value.length < commentMaxLength;
 }
 
 function inputKeydownHandler(evt) {
@@ -64,17 +64,17 @@ function inputKeydownHandler(evt) {
   }
 }
 
-hashtagPristine.addValidator(hashtagsElement, checkFirstSymbol, 'Хэш-тег должен начинаться с символа #', 10);
+pristine.addValidator(hashtagsElement, checkFirstSymbol, 'Хэш-тег должен начинаться с символа #', 10);
 
-hashtagPristine.addValidator(hashtagsElement, validateHashtagsAmount, 'Нельзя указать больше пяти хэш-тегов', 6);
+pristine.addValidator(hashtagsElement, validateHashtagsAmount, 'Нельзя указать больше пяти хэш-тегов', 6);
 
-hashtagPristine.addValidator(hashtagsElement, validateHashtagsSymbols, 'Хэш-тег должен состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.', 8);
+pristine.addValidator(hashtagsElement, validateHashtagsSymbols, 'Хэш-тег должен состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.', 8);
 
-hashtagPristine.addValidator(hashtagsElement, checkSharp, 'Хеш-тег не может состоять только из одной решётки', 9);
+pristine.addValidator(hashtagsElement, checkSharp, 'Хеш-тег не может состоять только из одной решётки', 9);
 
-hashtagPristine.addValidator(hashtagsElement, validateHashtagsUniq, 'Один и тот же хэш-тег не может быть использован дважды', 7);
+pristine.addValidator(hashtagsElement, validateHashtagsUniq, 'Один и тот же хэш-тег не может быть использован дважды', 7);
 
-commentPristine.addValidator(commentElement, validateCommentsLength, 'Длина комментария не может составлять больше 140 символов');
+pristine.addValidator(commentElement, validateCommentsLength, 'Длина комментария не может составлять больше 140 символов');
 
 hashtagsElement.addEventListener('keydown', inputKeydownHandler);
 
@@ -86,7 +86,9 @@ uploadFormElement.addEventListener('submit', (evt) => {
   // const successElement = document.querySelector('#success').content.querySelector('.success');
   // const errorElement = document.querySelector('#error').content.querySelector('.error');
 
-  const isValid = hashtagPristine.validate(hashtagsElement) && commentPristine.validate(commentElement);
+  const isHashtagValid = pristine.validate(hashtagsElement);
+  const isCommentValied = pristine.validate(commentElement);
+  const isValid = isHashtagValid && isCommentValied;
   if (isValid) {
     // document.body.appendChild(successElement);
   } else {

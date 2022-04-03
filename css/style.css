@@ -1404,6 +1404,11 @@ main {
   display: none;
 }
 
-.text__hashtags-wrapper {
-  margin-bottom: 15px;
+.text__error-text {
+  margin-bottom: 20px;
+
+}
+
+.img-upload__text > div:last-child .text__error-text {
+  margin-top: 20px;
 }
