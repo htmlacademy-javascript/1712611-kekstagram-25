@@ -5,7 +5,7 @@ const HASHTAGS_MAX_AMOUNT = 5;
 const HASHTAG_MAX_LENGTH = 20;
 const COMMENT_MAX_LENGTH = 140;
 
-const HASHTAG_REGEX = /^#[A-Za-zА-Яа-яЁё0-9]/;
+const HASHTAG_REGEX = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 
 const uploadFormElement = document.querySelector('.img-upload__form');
 const hashtagsElement = uploadFormElement.querySelector('.text__hashtags');
@@ -45,7 +45,7 @@ function checkSharp (value) {
   });
 }
 
-function validatehashtagsLength (value) {
+function validateHashtagsLength (value) {
   return value.split(' ').every((hashtag) => {
     if (hashtag.length <= HASHTAG_MAX_LENGTH) {
       return true;
@@ -85,7 +85,7 @@ pristine.addValidator(hashtagsElement, checkSharp, 'Хеш-тег не може�
 
 pristine.addValidator(hashtagsElement, validateHashtagsUniq, 'Один и тот же хэш-тег не может быть использован дважды', 7);
 
-pristine.addValidator(hashtagsElement, validatehashtagsLength, 'Максимальная длина одного хэш-тега 20 символов, включая решётку', 6);
+pristine.addValidator(hashtagsElement, validateHashtagsLength, 'Максимальная длина одного хэш-тега 20 символов, включая решётку', 6);
 
 pristine.addValidator(commentElement, validateCommentsLength, 'Длина комментария не может составлять больше 140 символов');
 
