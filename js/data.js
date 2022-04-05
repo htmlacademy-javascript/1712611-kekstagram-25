@@ -37,7 +37,7 @@ const NAMES = [
 const createComments = (index) => {
 
   const comments = [];
-  const commentsAmount = getRandomNumberFromRange(2, 4);
+  const commentsAmount = getRandomNumberFromRange(12, 25);
   for (let i = 1; i <= commentsAmount; i++) {
     comments.push({
       id: index * 100 + i,
