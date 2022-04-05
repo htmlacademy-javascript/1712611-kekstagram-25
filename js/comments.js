@@ -36,4 +36,4 @@ function buildComments(comments) {
   return commentsFragment;
 }
 
-export {buildComments};
+export {buildComment, buildComments};
