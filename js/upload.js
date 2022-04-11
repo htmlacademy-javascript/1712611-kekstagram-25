@@ -1,6 +1,10 @@
 import {isEscapeKey} from './util.js';
 import './upload-form.js';
 
+const MIN_SCALE_VALUE = 25;
+const MAX_SCALE_VALUE = 100;
+const SCALE_STEP = 25;
+
 const imageUploadModalElement = document.querySelector('.img-upload__overlay');
 const imageUploadElement = document.querySelector('#upload-file');
 const imageUploadModalCloseElement = imageUploadModalElement.querySelector('.img-upload__cancel');
@@ -16,12 +20,21 @@ function documentKeydownHandler(evt) {
   }
 }
 
+function uploadPreviewChangeScale (value) {
+  imageUploadPreviewElement.style = `transform: scale(${value / 100})`;
+  scaleValueELement.value = `${value}%`;
+}
+
+function getCurrentScaleValue() {
+  return Number(scaleValueELement.value.replace('%',''));
+}
+
 function openImageUploadModal () {
   imageUploadModalElement.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
   document.addEventListener('keydown', documentKeydownHandler);
-  const scaleCurrentValue = Number(scaleValueELement.value.replace('%',''));
-  imageUploadPreviewElement.style = `transform: scale(${scaleCurrentValue / 100})`;
+  const scaleCurrentValue = getCurrentScaleValue();
+  uploadPreviewChangeScale(scaleCurrentValue);
 }
 
 function closeImageUploadModal(evt) {
@@ -30,28 +43,27 @@ function closeImageUploadModal(evt) {
   document.querySelector('body').classList.remove('modal-open');
   document.removeEventListener('keydown', documentKeydownHandler);
   uploadFormElement.reset(); //обнуляет поля формы
+  imageUploadPreviewElement.className = ''; //наложение фильтра: по умолчаню "Оригинал"
 }
 
 function zoomOutImage(evt) {
   evt.preventDefault();
-  let scaleCurrentValue = Number(scaleValueELement.value.replace('%',''));
-  scaleCurrentValue = scaleCurrentValue - 25;
-  if (scaleCurrentValue < 25) {
-    scaleCurrentValue = 25;
+  let scaleCurrentValue = getCurrentScaleValue();
+  scaleCurrentValue = scaleCurrentValue - SCALE_STEP;
+  if (scaleCurrentValue < MIN_SCALE_VALUE) {
+    scaleCurrentValue = MIN_SCALE_VALUE;
   }
-  imageUploadPreviewElement.style = `transform: scale(${scaleCurrentValue / 100})`;
-  scaleValueELement.value = `${scaleCurrentValue}%`;
+  uploadPreviewChangeScale(scaleCurrentValue);
 }
 
 function zoomInImage(evt) {
   evt.preventDefault();
-  let scaleCurrentValue = Number(scaleValueELement.value.replace('%',''));
-  scaleCurrentValue = scaleCurrentValue + 25;
-  if (scaleCurrentValue > 100) {
-    scaleCurrentValue = 100;
+  let scaleCurrentValue = getCurrentScaleValue();
+  scaleCurrentValue = scaleCurrentValue + SCALE_STEP;
+  if (scaleCurrentValue > MAX_SCALE_VALUE) {
+    scaleCurrentValue = MAX_SCALE_VALUE;
   }
-  imageUploadPreviewElement.style = `transform: scale(${scaleCurrentValue / 100})`;
-  scaleValueELement.value = `${scaleCurrentValue}%`;
+  uploadPreviewChangeScale(scaleCurrentValue);
 }
 
 imageUploadElement.addEventListener('change', () => {
