@@ -69,7 +69,7 @@ const options = {
   'heat': {
     filter: 'brightness',
     range: {
-      min: 0,
+      min: 1,
       max: 3,
     },
     start: 3,
@@ -85,19 +85,30 @@ const imageUploadPreviewElement = document.querySelector('.img-upload__preview i
 const effectElements = document.querySelectorAll('.effects__radio');
 
 const sliderElement = document.querySelector('.effect-level__slider');
+const valueElement = document.querySelector('.effect-level__value');
+
 noUiSlider.create(sliderElement, options['none']);
 
 for (let i = 0; i < effectElements.length; i++) {
   effectElements[i].addEventListener('change', (evt) => {
     const effect = evt.target.value;
-    imageUploadPreviewElement.className = '';
-    imageUploadPreviewElement.classList.add(`effects__preview--${effect}`);
-    sliderElement.noUiSlider.updateOptions(options[effect]);
+    if (effect === 'none') {
+      sliderElement.classList.add('hidden');
+      imageUploadPreviewElement.className = '';
+      imageUploadPreviewElement.style.filter = '';
+
+    } else {
+      sliderElement.classList.remove('hidden');
+      imageUploadPreviewElement.className = '';
+      imageUploadPreviewElement.classList.add(`effects__preview--${effect}`);
+      sliderElement.noUiSlider.updateOptions(options[effect]);
+    }
   });
 }
 
 sliderElement.noUiSlider.on('update', () => {
   const sliderValue = sliderElement.noUiSlider.get();
+  valueElement.setAttribute('value', sliderValue);
   const currentEffect = document.querySelector('.effects__radio:checked').value;
   const filterValue = `${options[currentEffect].filter}(${sliderValue})`;
   imageUploadPreviewElement.style.filter = filterValue;

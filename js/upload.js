@@ -13,6 +13,7 @@ const uploadFormElement = document.querySelector('.img-upload__form');
 const buttonScaleSmallerElement = document.querySelector('.scale__control--smaller');
 const buttonScaleBiggerElement = document.querySelector('.scale__control--bigger');
 const scaleValueELement = document.querySelector('.scale__control--value');
+const sliderElement = document.querySelector('.effect-level__slider');
 
 function documentKeydownHandler(evt) {
   if (isEscapeKey(evt)) {
@@ -33,7 +34,8 @@ function openImageUploadModal () {
   imageUploadModalElement.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
   document.addEventListener('keydown', documentKeydownHandler);
-  const scaleCurrentValue = getCurrentScaleValue();
+  sliderElement.classList.add('hidden');
+  const scaleCurrentValue = MAX_SCALE_VALUE;
   uploadPreviewChangeScale(scaleCurrentValue);
 }
 
@@ -43,7 +45,8 @@ function closeImageUploadModal(evt) {
   document.querySelector('body').classList.remove('modal-open');
   document.removeEventListener('keydown', documentKeydownHandler);
   uploadFormElement.reset(); //обнуляет поля формы
-  imageUploadPreviewElement.className = ''; //наложение фильтра: по умолчаню "Оригинал"
+  imageUploadPreviewElement.className = '';
+  imageUploadPreviewElement.style = '';
 }
 
 function zoomOutImage(evt) {
