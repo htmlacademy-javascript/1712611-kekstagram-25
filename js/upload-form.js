@@ -93,14 +93,28 @@ hashtagsElement.addEventListener('keydown', inputKeydownHandler);
 
 commentElement.addEventListener('keydown', inputKeydownHandler);
 
+const sendData = (data) => {
+  fetch('https://25.javascript.pages.academy/kekstagram', {
+    method: 'POST',
+    body: data,
+  }).then((response) => {
+    if (response.ok) {
+      console.log('Форма отправилась успешно!');
+    } else {
+      console.error('Ошибочка вышла.');
+    }
+  });
+};
+
 uploadFormElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
   // closeImageUploadModal(evt);
   // const successElement = document.querySelector('#success').content.querySelector('.success');
   // const errorElement = document.querySelector('#error').content.querySelector('.error');
-
   const isValid = pristine.validate();
   if (isValid) {
+    const formData = new FormData(evt.target);
+    sendData(formData);
     // document.body.appendChild(successElement);
   } else {
     // document.body.appendChild(errorElement);
