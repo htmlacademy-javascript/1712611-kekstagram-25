@@ -1,5 +1,5 @@
-// import {closeImageUploadModal} from './upload.js';
 import {isEscapeKey} from './util.js';
+import {closeImageUploadModal} from './upload.js';
 
 const HASHTAGS_MAX_AMOUNT = 5;
 const HASHTAG_MAX_LENGTH = 20;
@@ -93,30 +93,79 @@ hashtagsElement.addEventListener('keydown', inputKeydownHandler);
 
 commentElement.addEventListener('keydown', inputKeydownHandler);
 
-const sendData = (data) => {
-  fetch('https://25.javascript.pages.academy/kekstagram', {
-    method: 'POST',
-    body: data,
-  }).then((response) => {
-    if (response.ok) {
-      console.log('Форма отправилась успешно!');
-    } else {
-      console.error('Ошибочка вышла.');
+let popupMessageClass = '';
+
+function closePopupMessage() {
+  const popupElement = document.querySelector(`.${popupMessageClass}`);
+  document.removeEventListener('click', clickOutsideMessagePopupHandler);
+  document.removeEventListener('keydown', documentKeydownHandler);
+  popupElement.remove();
+}
+
+function clickOutsideMessagePopupHandler(evt) {
+  if (evt.target.matches(`.${popupMessageClass}__button`) || !evt.target.closest(`.${popupMessageClass}__inner`)) {
+    closePopupMessage();
+  }
+}
+
+function documentKeydownHandler(evt) {
+  if (isEscapeKey(evt)) {
+    closePopupMessage();
+  }
+}
+
+function showMessage () {
+
+  const errorElementTemplate = document.querySelector(`#${popupMessageClass}`).content.querySelector(`.${popupMessageClass}`);
+  const errorElement = errorElementTemplate.cloneNode(true);
+  document.body.appendChild(errorElement);
+
+
+  const errorButtonElement = document.querySelector(`.${popupMessageClass}__button`);
+  document.addEventListener('click', clickOutsideMessagePopupHandler);
+  document.addEventListener('keydown', documentKeydownHandler);
+
+  errorButtonElement.addEventListener('click', () => {
+    document.removeEventListener('click', closePopupMessage);
+    closePopupMessage();
+  });
+}
+
+const setUploadFormSubmit = () => {
+  uploadFormElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    // const successElement = document.querySelector('#success').content.querySelector('.success');
+
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      const formData = new FormData(evt.target);
+
+      fetch('https://25.javascript.pages.academy/kekstagram',{
+        method: 'POST',
+        body: formData,
+      },
+      )
+        .then((response) => {
+          if (response.ok) {
+            closeImageUploadModal();
+            popupMessageClass = 'success';
+            showMessage();
+          } else {
+            closeImageUploadModal();
+            popupMessageClass = 'error';
+            showMessage();
+          }
+        })
+        .catch(() => {
+          closeImageUploadModal();
+          popupMessageClass = 'error';
+          showMessage();
+        });
+
     }
   });
 };
 
-uploadFormElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  // closeImageUploadModal(evt);
-  // const successElement = document.querySelector('#success').content.querySelector('.success');
-  // const errorElement = document.querySelector('#error').content.querySelector('.error');
-  const isValid = pristine.validate();
-  if (isValid) {
-    const formData = new FormData(evt.target);
-    sendData(formData);
-    // document.body.appendChild(successElement);
-  } else {
-    // document.body.appendChild(errorElement);
-  }
-});
+export {setUploadFormSubmit};

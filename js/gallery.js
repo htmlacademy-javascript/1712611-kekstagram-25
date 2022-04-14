@@ -1,5 +1,7 @@
 import {paintSmallImages} from './paint.js';
 import {attachPopupEvent} from './popup.js';
+import {closeImageUploadModal} from './upload.js';
+import {setUploadFormSubmit} from './upload-form.js';
 
 fetch('https://25.javascript.pages.academy/kekstagram/data')
   .then((response) => {
@@ -13,3 +15,4 @@ fetch('https://25.javascript.pages.academy/kekstagram/data')
     attachPopupEvent(images);
   });
 
+setUploadFormSubmit();
