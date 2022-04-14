@@ -17,7 +17,7 @@ const sliderElement = document.querySelector('.effect-level__slider');
 
 function documentKeydownHandler(evt) {
   if (isEscapeKey(evt)) {
-    closeImageUploadModal(evt);
+    closeImageUploadModal();
   }
 }
 
@@ -39,8 +39,7 @@ function openImageUploadModal () {
   uploadPreviewChangeScale(scaleCurrentValue);
 }
 
-function closeImageUploadModal(evt) {
-  evt.preventDefault();
+function closeImageUploadModal() {
   imageUploadModalElement.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
   document.removeEventListener('keydown', documentKeydownHandler);
@@ -69,20 +68,12 @@ function zoomInImage(evt) {
   uploadPreviewChangeScale(scaleCurrentValue);
 }
 
-imageUploadElement.addEventListener('change', () => {
-  openImageUploadModal();
-});
+imageUploadElement.addEventListener('change', openImageUploadModal);
 
-imageUploadModalCloseElement.addEventListener('click', (evt) => {
-  closeImageUploadModal(evt);
-});
+imageUploadModalCloseElement.addEventListener('click', closeImageUploadModal);
 
-buttonScaleSmallerElement.addEventListener('click', (evt) => {
-  zoomOutImage(evt);
-});
+buttonScaleSmallerElement.addEventListener('click', zoomOutImage);
 
-buttonScaleBiggerElement.addEventListener('click', (evt) => {
-  zoomInImage(evt);
-});
+buttonScaleBiggerElement.addEventListener('click', zoomInImage);
 
 export {closeImageUploadModal};
