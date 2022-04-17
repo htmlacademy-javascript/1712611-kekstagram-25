@@ -6,7 +6,6 @@ import {activateFilters, attachFiltersEvents} from './filters.js';
 
 let loadedImages = [];
 
-
 fetch('https://25.javascript.pages.academy/kekstagram/data')
   .then((response) => {
     if (response.ok) {
@@ -21,6 +20,5 @@ fetch('https://25.javascript.pages.academy/kekstagram/data')
     activateFilters();
     attachFiltersEvents(loadedImages);
   });
-
 
 setUploadFormSubmit();

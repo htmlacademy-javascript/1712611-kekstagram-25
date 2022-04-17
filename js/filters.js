@@ -1,6 +1,8 @@
 import {paintSmallImages} from './paint.js';
-import {getRandomNumberFromRange} from './util.js';
+import {getRandomNumberFromRange, debounce} from './util.js';
 import {attachPopupEvent} from './popup.js';
+
+const RERENDER_DELAY = 500;
 
 const imageFiltersElement = document.querySelector('.img-filters');
 const imageFilterDefaultElement = document.querySelector('#filter-default');
@@ -52,31 +54,37 @@ function activateFiltersButton (target) {
 }
 
 function attachFiltersEvents(images) {
-  imageFilterDefaultElement.addEventListener('click', (evt) => {
+  function filterDefaultImagesHandler(evt) {
     activateFiltersButton(evt.target);
     removeImages();
 
     paintSmallImages(images);
     attachPopupEvent(images);
-  });
+  }
 
-  imageFilterRandomElement.addEventListener('click', (evt) => {
+  function filterRandomImagesHandler(evt) {
     activateFiltersButton(evt.target);
     removeImages();
 
-    const rendomImages = getRandomImages(images);
-    paintSmallImages(rendomImages);
-    attachPopupEvent(rendomImages);
-  });
+    const randomImages = getRandomImages(images);
+    paintSmallImages(randomImages);
+    attachPopupEvent(randomImages);
+  }
 
-  imageFilterDiscussedElement.addEventListener('click', (evt) => {
+  function filterDiscussedImagesHandler(evt) {
     activateFiltersButton(evt.target);
     removeImages();
 
     const filteredImages = sortMostDiscussedImages(images);
     paintSmallImages(filteredImages);
     attachPopupEvent(filteredImages);
-  });
+  }
+
+  imageFilterDefaultElement.addEventListener('click', debounce(filterDefaultImagesHandler, RERENDER_DELAY));
+
+  imageFilterRandomElement.addEventListener('click', debounce(filterRandomImagesHandler, RERENDER_DELAY));
+
+  imageFilterDiscussedElement.addEventListener('click', debounce(filterDiscussedImagesHandler, RERENDER_DELAY));
 }
 
 export {activateFilters, attachFiltersEvents};
