@@ -35,6 +35,10 @@ function attachPopupEvent(images) {
       let startIndex = 0;
       let endIndex = startIndex + COMMENTS_AMOUNT - 1;
 
+      if (endIndex > image.comments.length - 1) {
+        endIndex = image.comments.length - 1;
+      }
+
       return function() {
         for (startIndex; startIndex <= endIndex; startIndex++) {
           const commentsElement = buildComment(image.comments[startIndex]);
