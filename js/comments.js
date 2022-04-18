@@ -25,15 +25,4 @@ function buildComment(comment) {
   return listElement;
 }
 
-// params:
-//   comments = [{ comment1, comment2, ... }]
-function buildComments(comments) {
-  const commentsFragment = document.createDocumentFragment();
-  for (const comment of comments) {
-    const commentElement = buildComment(comment);
-    commentsFragment.appendChild(commentElement);
-  }
-  return commentsFragment;
-}
-
-export {buildComment, buildComments};
+export {buildComment};
