@@ -12,7 +12,7 @@ const imageUploadPreviewElement = imageUploadModalElement.querySelector('.img-up
 const uploadFormElement = document.querySelector('.img-upload__form');
 const buttonScaleSmallerElement = document.querySelector('.scale__control--smaller');
 const buttonScaleBiggerElement = document.querySelector('.scale__control--bigger');
-const scaleValueELement = document.querySelector('.scale__control--value');
+const scaleValueElement = document.querySelector('.scale__control--value');
 const sliderElement = document.querySelector('.effect-level__slider');
 
 function documentKeydownHandler(evt) {
@@ -23,11 +23,11 @@ function documentKeydownHandler(evt) {
 
 function uploadPreviewChangeScale (value) {
   imageUploadPreviewElement.style = `transform: scale(${value / 100})`;
-  scaleValueELement.value = `${value}%`;
+  scaleValueElement.value = `${value}%`;
 }
 
 function getCurrentScaleValue() {
-  return Number(scaleValueELement.value.replace('%',''));
+  return Number(scaleValueElement.value.replace('%',''));
 }
 
 function openImageUploadModal () {
