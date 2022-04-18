@@ -89,8 +89,8 @@ const valueElement = document.querySelector('.effect-level__value');
 
 noUiSlider.create(sliderElement, options['none']);
 
-for (let i = 0; i < effectElements.length; i++) {
-  effectElements[i].addEventListener('change', (evt) => {
+effectElements.forEach((effectElement) => {
+  effectElement.addEventListener('change', (evt) => {
     const effect = evt.target.value;
     if (effect === 'none') {
       sliderElement.classList.add('hidden');
@@ -104,7 +104,7 @@ for (let i = 0; i < effectElements.length; i++) {
       sliderElement.noUiSlider.updateOptions(options[effect]);
     }
   });
-}
+});
 
 sliderElement.noUiSlider.on('update', () => {
   const sliderValue = sliderElement.noUiSlider.get();

@@ -30,7 +30,7 @@ function getCurrentScaleValue() {
   return Number(scaleValueElement.value.replace('%',''));
 }
 
-function openImageUploadModal () {
+function openImageUploadModalHandler() {
   imageUploadModalElement.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
   document.addEventListener('keydown', documentKeydownHandler);
@@ -48,7 +48,11 @@ function closeImageUploadModal() {
   imageUploadPreviewElement.style = '';
 }
 
-function zoomOutImage(evt) {
+function closeImageUploadModalHandler() {
+  closeImageUploadModal();
+}
+
+function zoomOutImageHandler(evt) {
   evt.preventDefault();
   let scaleCurrentValue = getCurrentScaleValue();
   scaleCurrentValue = scaleCurrentValue - SCALE_STEP;
@@ -58,7 +62,7 @@ function zoomOutImage(evt) {
   uploadPreviewChangeScale(scaleCurrentValue);
 }
 
-function zoomInImage(evt) {
+function zoomInImageHandler(evt) {
   evt.preventDefault();
   let scaleCurrentValue = getCurrentScaleValue();
   scaleCurrentValue = scaleCurrentValue + SCALE_STEP;
@@ -68,12 +72,12 @@ function zoomInImage(evt) {
   uploadPreviewChangeScale(scaleCurrentValue);
 }
 
-imageUploadElement.addEventListener('change', openImageUploadModal);
+imageUploadElement.addEventListener('change', openImageUploadModalHandler);
 
-imageUploadModalCloseElement.addEventListener('click', closeImageUploadModal);
+imageUploadModalCloseElement.addEventListener('click', closeImageUploadModalHandler);
 
-buttonScaleSmallerElement.addEventListener('click', zoomOutImage);
+buttonScaleSmallerElement.addEventListener('click', zoomOutImageHandler);
 
-buttonScaleBiggerElement.addEventListener('click', zoomInImage);
+buttonScaleBiggerElement.addEventListener('click', zoomInImageHandler);
 
 export {closeImageUploadModal};

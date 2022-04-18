@@ -23,13 +23,7 @@ function isEmptyString(value) {
 }
 
 function checkFirstSymbol (value) {
-  return isEmptyString(value) || value.split(' ').every((hashtag) => {
-    if (hashtag[0] === '#') {
-      return true;
-    }
-
-    return false;
-  });
+  return isEmptyString(value) || value.split(' ').every((hashtag) => hashtag[0] === '#');
 }
 
 function validateHashtagsSymbols (value) {
@@ -37,23 +31,11 @@ function validateHashtagsSymbols (value) {
 }
 
 function checkSharp (value) {
-  return value.split(' ').every((hashtag) => {
-    if (hashtag === '#') {
-      return false;
-    }
-
-    return true;
-  });
+  return value.split(' ').every((hashtag) => hashtag !== '#');
 }
 
 function validateHashtagsLength (value) {
-  return value.split(' ').every((hashtag) => {
-    if (hashtag.length <= HASHTAG_MAX_LENGTH) {
-      return true;
-    }
-
-    return false;
-  });
+  return value.split(' ').every((hashtag) => hashtag.length <= HASHTAG_MAX_LENGTH);
 }
 
 function validateHashtagsAmount (value) {
@@ -132,17 +114,17 @@ function showMessage () {
   });
 }
 
-const blockSubmitButton = () => {
+function blockSubmitButton() {
   submitButtonElement.disabled = true;
   submitButtonElement.textContent = 'Публикую...';
-};
+}
 
-const unblockSubmitButton = () => {
+function unblockSubmitButton() {
   submitButtonElement.disabled = false;
   submitButtonElement.textContent = 'Опубликовать';
-};
+}
 
-const setUploadFormSubmit = () => {
+function setUploadFormSubmit() {
   uploadFormElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -171,6 +153,6 @@ const setUploadFormSubmit = () => {
 
     }
   });
-};
+}
 
 export {setUploadFormSubmit};

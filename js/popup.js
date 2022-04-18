@@ -7,22 +7,6 @@ const commentsContainerElement = document.body.querySelector('.social__comments'
 const commentsLoaderButtonElement = document.body.querySelector('.comments-loader');
 const commentsCurrentCountElement = document.querySelector('.social__comment-count').childNodes[0];
 
-// images = [
-//   { "id":1,
-//      "url":"photos/1.jpg",
-//      "description":"Ошибки являются доказательством того, что вы пытались.",
-//      "likes":46,
-//      "comments":[
-//        {
-//          "id":101,
-//          "avatar": "img/avatar-6.svg",
-//          "message":"Всё отлично!",
-//          "name":"Азула"
-//        },
-//      ]
-//   }
-// ]
-
 function attachPopupEvent(images) {
   const pictureElements = document.querySelectorAll('.picture');
   const popupElement = document.querySelector('.big-picture');
@@ -93,12 +77,12 @@ function attachPopupEvent(images) {
     openModal();
   }
 
-  for (let i = 0; i < pictureElements.length; i++) {
-    pictureElements[i].addEventListener('click', (evt) => {
+  pictureElements.forEach((pictureElement, i) => {
+    pictureElement.addEventListener('click', (evt) => {
       evt.preventDefault();
       setupModal(images[i]);
     });
-  }
+  });
 }
 
 export {attachPopupEvent};
