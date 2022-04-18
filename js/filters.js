@@ -14,15 +14,15 @@ function activateFilters() {
 }
 
 function getRandomImages(images) {
-  const result = [];
+  const results = [];
   const copiedImages = images.slice();
   const maxImagesNumber = images.length > 10 ? 10 : images.length;
   for (let i = 0; i < maxImagesNumber; i++) {
     const randomIndex = getRandomNumberFromRange(0, copiedImages.length - 1);
-    result.push(copiedImages.splice(randomIndex, 1)[0]);
+    results.push(copiedImages.splice(randomIndex, 1)[0]);
   }
 
-  return result;
+  return results;
 }
 
 function sortMostDiscussedImages(images) {
@@ -43,14 +43,14 @@ function removeImages() {
 
 function activateFiltersButton (target) {
   const filtersButtonCollection = document.querySelectorAll('.img-filters__button');
-  for (let i = 0; i < filtersButtonCollection.length; i++) {
-    if (filtersButtonCollection[i] === target) {
-      filtersButtonCollection[i].classList.add('img-filters__button--active');
+  filtersButtonCollection.forEach((filtersButton) => {
+    if (filtersButton === target) {
+      filtersButton.classList.add('img-filters__button--active');
     }
-    if (filtersButtonCollection[i] !== target) {
-      filtersButtonCollection[i].classList.remove('img-filters__button--active');
+    if (filtersButton !== target) {
+      filtersButton.classList.remove('img-filters__button--active');
     }
-  }
+  });
 }
 
 function attachFiltersEvents(images) {
